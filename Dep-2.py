@@ -1,5 +1,4 @@
-# Streamlit Documentation: https://docs.streamlit.io/
-
+#important libraries
 import pickle
 import requests
 import json
@@ -13,11 +12,12 @@ from streamlit_lottie import st_lottie
 from datetime import date
 import locale
 
+#Method for loading the model
 def load_model():
     model = joblib.load("final_model_with_encoder.pkl")
     return model
 
-# Title/Text
+#Method for loading lottie file
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
         return json.load(f)
@@ -37,7 +37,7 @@ st.markdown(
 
 
 def main():
-    # Load the machine learning model and pipeline
+    # Load the machine learning model 
     model = load_model()
 
     # Custom styling
@@ -110,13 +110,13 @@ def main():
 
     # Input form
     st.markdown('<h2 class="input-label">Enter car properties </h2>', unsafe_allow_html=True)
-
-    hp_kw = st.slider("Horsepower in kilowatts", 40, 294, step=1)
+    #Saving the values comes from the user
+    hp_kw = st.slider("Horsepower in kilowatts", 40, 294, step=10)
     age = st.selectbox("Age of the car", (0, 1, 2, 3))
-    km = st.slider("Total kilometers", 0, 317000, step=1)
+    km = st.slider("Total kilometers", 0, 317000, step=1000)
     gears = st.selectbox("Number of gears in the car", (5, 6, 7, 8))
     make_model = st.selectbox("Select car's model", ('Audi A3', 'Opel Insignia', 'Audi A1', 'Opel Astra', 'Opel Corsa', 'Renault Clio', 'Renault Espace'))
-
+    # Make a dictionary
     my_dict = {
         "hp_kW": hp_kw,
         "age": age,
@@ -124,14 +124,49 @@ def main():
         'Gears': gears,
         "make_model": make_model
     }
-    
+    # Convert a dictionary into dataframe
     df = pd.DataFrame.from_dict([my_dict])
+
     st.markdown('<table class="custom-table">', unsafe_allow_html=True)
-    st.write(df.to_html(index=False, escape=False), unsafe_allow_html=True)
+
+    # Customize the header names
+    header_mapping = {
+        'hp_kW': 'Horsepower in KW',
+        'age': 'Car age',
+        'km': 'Total kilometer',
+        'Gears': 'Gears',
+        'make_model':  'Car model>>'
+    }
+
+    # Create a list of custom headers in the correct order
+    custom_headers = [header_mapping.get(original_header, original_header) for original_header in df.columns]
+
+    # Create a list of custom headers in the correct order
+    custom_headers = [header_mapping.get(original_header, original_header) for original_header in df.columns]
+
+    # Write the table header with customized values
+    table_header = '<tr>' + ''.join(f'<th>{header}</th>' for header in custom_headers) + '</tr>'
+    table_header_html = f'<thead>{table_header}</thead>'
+
+    # Remove the default header from the DataFrame
+    table_data = df.to_html(index=False, header=False, escape=False)
+
+    # Remove the border and class attributes from the table
+    table_data = table_data.replace('border="1" ', '').replace('class="dataframe"', '')
+
+    
+    # Replace the ">" symbol
+    table_data = table_data.replace('&gt;', '>')
+
+    # Write the table data with custom headers
+    table_data_with_headers = table_data.replace('<table', f'<table class="custom-table">{table_header_html}', 1)
+    st.markdown(table_data_with_headers, unsafe_allow_html=True)
+
     st.markdown('</table>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
+
+    #Predect Button
     predict = st.button("Predict")
-    
     if predict:
         result = model.predict(df)
         current_date = date.today().strftime("%Y-%m-%d")
