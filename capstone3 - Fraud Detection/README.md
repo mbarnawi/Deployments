@@ -20,7 +20,7 @@ Feel free to explore the repositories of these libraries and frameworks for more
 
 Considering the imbalanced nature of the data, we employed various techniques such as oversampling, undersampling, and adjusting class weights to tackle the issue. However, in real-life scenarios, it is common for fraud detection datasets to be imbalanced since fraudulent instances are typically much less frequent compared to non-fraudulent instances.
 
-# MOdeling 
+# Modeling 
 
 The random forest model yielded the best results among the machine learning models and the deep learning model, even without adjusting the class weights. The random forest model outperformed other models in terms of performance and achieved the highest accuracy.
 
