@@ -21,6 +21,10 @@ The relationship between the target column and the observation columns.
 The purpose of clustering is to gain insights into the data distribution. Each cluster is analyzed to understand the behavior of each column
 <div> <img src="https://github.com/mbarnawi/Deployments/blob/main/capstone1%20-%20RFM%20Customer%20Segmentation%20%26%20Cohort%20Analysis%20Project/image/c1.PNG" width =700 > </div>
 
+# MOdeling 
+
+The SVM model, random forest, and XGBoost were employed.
+
 
 # Acknowledgements
 This project is part of ML bootcamp provided by [clarusway](https://clarusway.com/)
