@@ -24,7 +24,7 @@ Considering the imbalanced nature of the data, we employed various techniques su
 
 The random forest model yielded the best results among the machine learning models and the deep learning model, even without adjusting the class weights. The random forest model outperformed other models in terms of performance and achieved the highest accuracy.
 
- ## Optimal Hyperparameters and result for Random Forest:
+ ## Optimal Hyperparameters and   Results for Random Forest:
  | Parameter      | Value       |
 | -------------- | ----------- |
 | max_depth              | 7         |
